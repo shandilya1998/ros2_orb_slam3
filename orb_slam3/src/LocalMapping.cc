@@ -163,6 +163,7 @@ void LocalMapping::Run()
                     }
 					for(std::vector<KeyFrame*>::iterator it = vOptimizedKFs.begin(); it < vOptimizedKFs.end(); it++){
 						std::set<MapPoint*> vMapPoints = (*it)->GetMapPoints();
+						// std::cout<<"Local Mapping pushing: "<< vMapPoints.size() << "map points"<<std::endl;
 						mpSystem->FrameMapPointUpdateCallback(vMapPoints, (*it)->GetPose());
 					}
 
