@@ -10,11 +10,12 @@
 #include "tf2/LinearMath/Transform.h"
 #include "tf2_geometry_msgs/tf2_geometry_msgs.h"
 #include <geometry_msgs/msg/transform_stamped.hpp>
+#include "custom_interfaces/msg/point_cloud3.hpp"
 
 using ImageMsg = sensor_msgs::msg::Image;
 using MarkerMsg = visualization_msgs::msg::Marker;
 using PointMsg = geometry_msgs::msg::Point;
-using MapMsg = sensor_msgs::msg::PointCloud2;
+using MapMsg = custom_interfaces::msg::PointCloud3;
 
 bool readYAMLFile(std::string &yamlPath, YAML::Node &output);
 

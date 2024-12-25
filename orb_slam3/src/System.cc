@@ -305,7 +305,7 @@ Sophus::SE3f System::TrackStereo(const cv::Mat &imLeft, const cv::Mat &imRight, 
     mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
     mTrackedKeyPoints = mpTracker->mCurrentFrame.mvKeys;
 	// std::cout<<"Tracking Pushing " << mTrackedMapPoints.size() << " map points" << std::endl;
-	FrameMapPointUpdateCallback(mTrackedMapPoints, Tcw);
+	// FrameMapPointUpdateCallback(mTrackedMapPoints, Tcw);
 
     return Tcw;
 }
@@ -380,7 +380,7 @@ Sophus::SE3f System::TrackRGBD(const cv::Mat &im, const cv::Mat &depthmap, const
     mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
     mTrackedKeyPoints = mpTracker->mCurrentFrame.mvKeys;
 	// std::cout<<"Pushing "<<mTrackedMapPoints.size() << " map points"<<std::endl;
-	FrameMapPointUpdateCallback(mTrackedMapPoints, Tcw);
+	// FrameMapPointUpdateCallback(mTrackedMapPoints, Tcw);
 
     return Tcw;
 }
@@ -467,7 +467,7 @@ Sophus::SE3f System::TrackMonocular(const cv::Mat &im, const double &timestamp, 
     mTrackedKeyPointsUn = mpTracker->mCurrentFrame.mvKeysUn;
     mTrackedKeyPoints = mpTracker->mCurrentFrame.mvKeys;
 	// std::cout<<"Pushing "<<mTrackedMapPoints.size() << " map points"<<std::endl;
-	FrameMapPointUpdateCallback(mTrackedMapPoints, Tcw);
+	// FrameMapPointUpdateCallback(mTrackedMapPoints, Tcw);
 
     return Tcw;
 }
