@@ -11,7 +11,7 @@ MonocularSlamNode::MonocularSlamNode() : SlamNode("orbslam3_mono_node"){
 	RCLCPP_INFO(this->get_logger(), "Created SLAM Object for MORBSLAM in Mono Slam Node");
 #endif
 	mpSlamStartupService = this->create_service<StartupSlam>("~/start_slam", std::bind(&MonocularSlamNode::InitialiseSlamNode, this, std::placeholders::_1, std::placeholders::_2));
-	const double data[] = {0, 0, 1, -1, 0, 0, 0, -1, 0};
+	const double data[] = {1, 0, 0, 0, 0, -1, 0, 1, 0};
 	Eigen::Matrix3d orbToROSTransform(data);
 	mpOrbToROSTransform = orbToROSTransform;
 	mpTfBroadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(tf2_ros::TransformBroadcaster(this)); 
@@ -150,8 +150,9 @@ void MonocularSlamNode::PublishMapPointsCallback(std::vector<ORB_SLAM3::MapPoint
 	}
 	RCLCPP_DEBUG(this->get_logger(), "Got %d map points for publication", mapPoints.size());
 	MapMsg::UniquePtr msg = std::make_unique<MapMsg>();
-	MapPointsToPointCloud(mapPoints, tcw, msg->cloud);	
-	SophusToGeometryMsgTransform(tcw, msg->pose);
+	MapPointsToPointCloud(mapPoints, tcw, msg->cloud);
+	Sophus::SE3<float> twc = tcw.inverse();
+	SophusToGeometryMsgTransform(twc, msg->pose);
 	mpMapPointPublisher->publish(std::move(msg));
 }
 
@@ -160,8 +161,8 @@ void MonocularSlamNode::MapPointsToPointCloud(std::vector<ORB_SLAM3::MapPoint*> 
 
     const int num_channels = 3; // x y z
 	long current_frame_time_ = mpCurrentFrame.getTimestampNSec();
-	Eigen::Matrix3d cam_base_R_ = mpOrbToROSTransform * (tcw.so3().matrix().cast<double>());
-	Eigen::Vector3d cam_base_T_ = mpOrbToROSTransform * (tcw.translation().cast<double>());
+	Eigen::Matrix3d cam_base_R_ = mpOrbToROSTransform * Eigen::Matrix3d::Identity();
+	Eigen::Vector3d cam_base_T_ = mpOrbToROSTransform * Eigen::Vector3d::Zero();
 
     cloud.header.stamp.sec = static_cast<int32_t>(current_frame_time_ / 1e9);
 	cloud.header.stamp.nanosec = static_cast<int32_t>(current_frame_time_ % static_cast<long long>(1e9));

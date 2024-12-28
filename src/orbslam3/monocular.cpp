@@ -49,7 +49,7 @@ void MonoORBSLAM3::InitialiseSlam(
 			response->success = false;
 			response->message = "Received unsupported camera type";
 		}
-		mpORBSlam3 = std::make_unique<ORB_SLAM3::System>(vocabFilePath, settingsFilePath, cameraType);
+		mpORBSlam3 = std::make_unique<ORB_SLAM3::System>(vocabFilePath, settingsFilePath, cameraType, false);
 	}
 }
 
