@@ -11,9 +11,7 @@ MonocularSlamNode::MonocularSlamNode() : SlamNode("orbslam3_mono_node"){
 	RCLCPP_INFO(this->get_logger(), "Created SLAM Object for MORBSLAM in Mono Slam Node");
 #endif
 	mpSlamStartupService = this->create_service<StartupSlam>("~/start_slam", std::bind(&MonocularSlamNode::InitialiseSlamNode, this, std::placeholders::_1, std::placeholders::_2));
-	const double data[] = {1, 0, 0, 0, 0, -1, 0, 1, 0};
-	Eigen::Matrix3d orbToROSTransform(data);
-	mpOrbToROSTransform = orbToROSTransform;
+	mpOrbToROSTransform <<  1, 0, 0, 0, 0, -1, 0, 1, 0;
 	mpTfBroadcaster = std::make_unique<tf2_ros::TransformBroadcaster>(tf2_ros::TransformBroadcaster(this)); 
 }
 
