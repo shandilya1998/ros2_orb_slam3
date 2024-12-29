@@ -45,6 +45,8 @@ find_package(tf2_geometry_msgs REQUIRED)
 find_package(Yaml-cpp REQUIRED)
 find_package(MORB_SLAM REQUIRED COMPONENTS MORB_SLAM DBoW2 g2o sophus)
 find_package(octomap REQUIRED)
+find_package(octomap_ros REQUIRED)
+find_package(octomap_msgs REQUIRED)
 
 # Header file locations [C++ node]
 include_directories(

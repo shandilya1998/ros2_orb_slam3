@@ -19,6 +19,7 @@ class MonocularSlamNode : public SlamNode
 		std::string mpVocabFilePath;
 		Frame mpCurrentFrame;
 		std::unique_ptr<Slam> mpSlam = nullptr;
+		Eigen::Matrix3d mpOrbToROSTransform;
 		// ORB_SLAM3 related attributes
 #ifdef USE_ORBSLAM3
 		ORB_SLAM3::Tracking::eTrackingState mpState;
@@ -43,7 +44,8 @@ class MonocularSlamNode : public SlamNode
 		void PublishFrame();
 #ifdef USE_ORBSLAM3
 		void PublishMapPointsCallback(std::vector<ORB_SLAM3::MapPoint*> &mapPoints, const Sophus::SE3<float> &tcw);
-		MapMsg MapPointsToPointCloud(std::vector<ORB_SLAM3::MapPoint*> &mapPoints, const Sophus::SE3<float> &tcw);
+		void MapPointsToPointCloud(std::vector<ORB_SLAM3::MapPoint*> &mapPoints, const Sophus::SE3<float> &tcw, sensor_msgs::msg::PointCloud2 &cloud);
+		void SophusToGeometryMsgTransform(const Sophus::SE3<float>& se3, geometry_msgs::msg::Transform &pose);
 		// TODO need to make this a parameter
 		int mpNumMinObsPerPoint = 2;
 #endif
